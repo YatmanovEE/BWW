@@ -1,5 +1,11 @@
+import { globalStyle } from './App.global.styled';
+import { registryGlobalName } from './modules/join';
+import BlackboardWithWords from './components/BlackboardWithWords';
+
 function App() {
-	return <div>work</div>;
+	let className = globalStyle();
+	registryGlobalName(className);
+	return <BlackboardWithWords></BlackboardWithWords>;
 }
 
 export default App;
