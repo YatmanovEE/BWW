@@ -1,11 +1,4 @@
-import {
-	ChangeEventHandler,
-	FC,
-	SyntheticEvent,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { ChangeEventHandler, FC, useRef, useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { ITheme } from '../';
@@ -61,6 +54,8 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	const [corrector] = useState<ICorrector[]>(() => arr);
 	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
+	const [dateNow, setDateNow] = useState(0);
+	const [dateEnd, setDateEnd] = useState(0);
 	let className = style({ correct });
 	let join = createClassName(className);
 	let nodeRef = useRef<HTMLInputElement>(null);
@@ -69,7 +64,17 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 			nodeRef.current.focus();
 		}
 	}
+	useEffect(() => {
+		let timer = setInterval(() => {
+			if (dateNow !== 0) {
+				setDateEnd((Date.now() - dateNow) / 1000);
+			}
+		}, 100);
+
+		return () => clearInterval(timer);
+	}, [dateNow]);
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
+		if (e.target.value.length <= 1) setDateNow(Date.now());
 		if (corrector.length <= inputValue.length) return;
 
 		let eValue = e.target.value[inputValue.length];
@@ -87,9 +92,22 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	};
 	return (
 		<>
+			<div>Затраченное время:{dateEnd}</div>
 			<div className="">
 				<span>Процент ошибок:</span>
 				<span>{(countMistake / corrector.length) * 100}%</span>
+			</div>
+			<div className="">
+				<span>Скорость написания в секунду:</span>
+				<span>
+					{Math.round((inputValue.length * 100) / dateEnd) / 100 || 0}
+				</span>
+			</div>
+			<div className="">
+				<span>Скорость написания в минуту:</span>
+				<span>
+					{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
+				</span>
 			</div>
 			<input
 				ref={nodeRef}
