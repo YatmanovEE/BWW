@@ -57,6 +57,7 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	const [countMistake, setCountMistake] = useState(0);
 	const [dateNow, setDateNow] = useState(0);
 	const [dateEnd, setDateEnd] = useState(0);
+	const [endText, setEndText] = useState(false);
 	let className = style({ correct });
 	let join = createClassName(className);
 	let nodeRef = useRef<HTMLInputElement>(null);
@@ -70,14 +71,16 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 			if (dateNow !== 0) {
 				setDateEnd((Date.now() - dateNow) / 1000);
 			}
+			if (endText) {
+				clearInterval(timer);
+			}
 		}, 100);
 
 		return () => clearInterval(timer);
-	}, [dateNow]);
+	}, [dateNow, endText]);
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
 		if (e.target.value.length <= 1) setDateNow(Date.now());
-		if (corrector.length <= inputValue.length) return;
-
+		if (corrector.length < e.target.value.length) return;
 		let eValue = e.target.value[inputValue.length];
 		if (corrector[inputValue.length].value === eValue) {
 			setCorrect(true);
@@ -89,6 +92,9 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 				setCountMistake((prev) => prev + 1);
 			}
 			corrector[inputValue.length].correct = false;
+		}
+		if (corrector.length - 1 <= e.target.value.length) {
+			return setEndText(true);
 		}
 	};
 	return (
