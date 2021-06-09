@@ -58,7 +58,7 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	const [dateNow, setDateNow] = useState(0);
 	const [dateEnd, setDateEnd] = useState(0);
 	const [endText, setEndText] = useState(false);
-	let className = style({ correct });
+	const { dateEnd, setDateStart, dateStart } = useTimer(endText, 100);
 	let join = createClassName(className);
 	let nodeRef = useRef<HTMLInputElement>(null);
 	function wrapperHandler() {
@@ -79,7 +79,7 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 		return () => clearInterval(timer);
 	}, [dateNow, endText]);
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
-		if (e.target.value.length <= 1) setDateNow(Date.now());
+		if (e.target.value.length <= 1) setDateStart(Date.now());
 		if (corrector.length < e.target.value.length) return;
 		let eValue = e.target.value[inputValue.length];
 		if (corrector[inputValue.length].value === eValue) {
