@@ -7,12 +7,36 @@ import { useTimer } from '../hooks/useTimer';
 
 interface IStyle {
 	correct: boolean;
+	dateStart: number;
 }
 
 let style = createUseStyles((theme: ITheme) => ({
+	main__container: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		maxWidth: '300px',
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
 	inputText: {
 		opacity: 0,
 		position: 'absolute',
+	},
+	information__container: {
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		justifyItems: 'center',
+		whiteSpace: 'nowrap',
+		padding: '10px',
+	},
+	btn: {
+		marginTop: '10px',
+		border: `1px ${theme.shadowColorSecondary} solid`,
+		boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
+		transition: 'box-shadow 0.2s ease',
+		'&:active': {
+			boxShadow: 'none',
+		},
 	},
 	corrector__container: ({ correct, dateStart }: IStyle) => ({
 		border: dateStart
@@ -23,21 +47,28 @@ let style = createUseStyles((theme: ITheme) => ({
 		width: '300px',
 		height: '300px',
 		cursor: 'text',
+		padding: '10px',
+		boxShadow: theme.shadowGeometry + theme.shadowColorPrimary,
+		transition: 'box-shadow 1s ease, border 1s ease ',
+		'&:hover': {
+			boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
+		},
 	}),
+	span: {},
 	correct: {
 		color: 'white',
-		backgroundColor: 'green',
+		backgroundColor: theme.greenColor,
 	},
 	error: {
 		color: 'white',
-		backgroundColor: 'red',
+		backgroundColor: theme.redColor,
 	},
 }));
 
 let testArr = 'Привет как дела, как же давно не виделись';
 
 function createCorrector(str: string): ICorrector[] {
-let arr: ICorrector[] = [];
+	let arr: ICorrector[] = [];
 	str.split('').forEach((item, i) => {
 		arr.push({
 			count: i,
@@ -55,6 +86,11 @@ type ICorrector = {
 	correct: boolean | null;
 	value: string;
 };
+function refFocus(nodeRef: React.RefObject<HTMLElement>) {
+	if (nodeRef?.current) {
+		nodeRef.current.focus();
+	}
+}
 
 const BlackboardWithWords: FC<Props> = ({}) => {
 	const [correct, setCorrect] = useState(true);
@@ -63,17 +99,20 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	);
 	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
-	const [dateNow, setDateNow] = useState(0);
-	const [dateEnd, setDateEnd] = useState(0);
 	const [endText, setEndText] = useState(false);
+
 	const { dateEnd, setDateStart, dateStart } = useTimer(endText, 100);
+
+	let inputRef = useRef<HTMLInputElement>(null);
+	let className = style({
+		correct,
 		dateStart,
+	});
 	let join = createClassName(className);
-	let nodeRef = useRef<HTMLInputElement>(null);
-	function wrapperHandler() {
-		if (nodeRef?.current) {
-			nodeRef.current.focus();
-		}
+
+	function focusHandler() {
+		refFocus(inputRef);
+	}
 	function reset() {
 		setCorrect(true);
 		setInputValue('');
@@ -83,8 +122,6 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 		setCorrector(createCorrector(testArr));
 	}
 
-		return () => clearInterval(timer);
-	}, [dateNow, endText]);
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
 		if (e.target.value.length <= 1) setDateStart(Date.now());
 		if (corrector.length < e.target.value.length) return;
@@ -104,32 +141,38 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 			return setEndText(true);
 		}
 	};
+
 	return (
-		<>
-			<div>Затраченное время:{dateEnd}</div>
-			<div className="">
-				<span>Процент ошибок:</span>
-				<span>{(countMistake / corrector.length) * 100}%</span>
-			</div>
-			<div className="">
-				<span>Скорость написания в секунду:</span>
-				<span>
-					{Math.round((inputValue.length * 100) / dateEnd) / 100 || 0}
-				</span>
-			</div>
-			<div className="">
-				<span>Скорость написания в минуту:</span>
-				<span>
-					{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
-				</span>
-			</div>
+		<div className={join('flex', 'main__container', 'container')}>
+			<div className={join('information__container', 'container', 'flex')}>
+				<div>Затраченное время:{dateEnd}</div>
+				<div className="">
+					<span>Процент ошибок:</span>
+					<span>{(countMistake / corrector.length) * 100}%</span>
+				</div>
+				<div className="">
+					<span>Скорость написания в секунду:</span>
+					<span>
+						{Math.round((inputValue.length * 100) / dateEnd) / 100 || 0}
+					</span>
+				</div>
+				<div className="">
+					<span>Скорость написания в минуту:</span>
+					<span>
+						{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
+					</span>
+				</div>
 				<button className={join('btn')} onClick={() => reset()}>
 					Сбросить
 				</button>
+			</div>
 
-			<div className={join('wrapper')} onClick={wrapperHandler}>
+			<div
+				className={join('container', 'corrector__container')}
+				onClick={focusHandler}
+			>
 				<input
-					ref={nodeRef}
+					ref={inputRef}
 					type="text"
 					name=""
 					id=""
@@ -155,7 +198,7 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 					);
 				})}
 			</div>
-		</>
+		</div>
 	);
 };
 
