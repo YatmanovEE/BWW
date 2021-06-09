@@ -5,7 +5,6 @@ export const globalStyle = createUseStyles(
 	(theme: ITheme) => ({
 		'@global': {
 			a: {
-				color: theme.linkColor,
 				outline: 'none',
 				textDecoration: 'none',
 			},
@@ -24,6 +23,9 @@ export const globalStyle = createUseStyles(
 		},
 		none: {
 			display: 'none',
+		},
+		container: {
+			margin: '20px',
 		},
 	}),
 	{
