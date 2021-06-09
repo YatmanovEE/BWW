@@ -1,4 +1,11 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import {
+	ChangeEventHandler,
+	FC,
+	SyntheticEvent,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { ITheme } from '../';
@@ -10,7 +17,8 @@ interface IStyle {
 
 let style = createUseStyles((theme: ITheme) => ({
 	inputText: {
-		// opacity: 0,
+		opacity: 0,
+		position: 'absolute',
 	},
 	wrapper: ({ correct }: IStyle) => ({
 		border: '1px solid',
@@ -19,69 +27,69 @@ let style = createUseStyles((theme: ITheme) => ({
 		height: '300px',
 	}),
 	correct: {
-		color: 'green',
+		color: 'white',
+		backgroundColor: 'green',
 	},
 	error: {
-		color: 'red',
+		color: 'white',
+		backgroundColor: 'red',
 	},
 }));
 
-let testArr = 'Привет как дела, как же давно не виделись';
+let arr: ICorrector[] = [];
+
+let testArr = 'Привет как дела, как же давно не виделись'
+	.split('')
+	.forEach((item, i) => {
+		arr.push({
+			count: i,
+			correct: null,
+			value: item,
+		});
+	});
 
 type Props = ConnectedProps<typeof connector>;
 
 type ICorrector = {
 	count: number;
-	correct: boolean;
+	correct: boolean | null;
 	value: string;
 };
 
 const BlackboardWithWords: FC<Props> = ({}) => {
 	const [correct, setCorrect] = useState(true);
-	const [corrector, setCorrector] = useState<ICorrector[]>([
-		{
-			count: 0,
-			correct: true,
-			value: testArr[0],
-		},
-	]);
+	const [corrector] = useState<ICorrector[]>(() => arr);
+	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
 	let className = style({ correct });
 	let join = createClassName(className);
 	let nodeRef = useRef<HTMLInputElement>(null);
 	function wrapperHandler() {
-		let current = nodeRef?.current;
-		if (current) {
-			current.focus();
+		if (nodeRef?.current) {
+			nodeRef.current.focus();
 		}
 	}
-	useEffect(() => {
-		if (correct === false) {
-			setCountMistake((prev) => prev + 1);
-		}
-	}, [correct]);
-	console.log(corrector);
-	const inputHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		let count = e.target.value.length - 1;
-		let obj = {
-			count,
-			correct: true,
-			value: e.target.value.charAt(count),
-		};
-		if (testArr.charAt(count) === e.target.value.charAt(count)) {
-			obj.correct = true;
+	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
+		if (corrector.length <= inputValue.length) return;
+
+		let eValue = e.target.value[inputValue.length];
+		if (corrector[inputValue.length].value === eValue) {
 			setCorrect(true);
+			corrector[inputValue.length].correct = true;
+			setInputValue(e.target.value);
 		} else {
-			obj.correct = false;
 			setCorrect(false);
+			if (correct) {
+				setCountMistake((prev) => prev + 1);
+			}
+			corrector[inputValue.length].correct = false;
 		}
-		setCorrector((prev) => prev.splice(0, count + 1, ...prev.concat(obj)));
 	};
 	return (
 		<>
 			<div className="">
-				<span>Процент ошибок</span>
-				<span>{(countMistake / testArr.length) * 100}%</span>
+				<span>Процент ошибок:</span>
+				<span>{(countMistake / corrector.length) * 100}%</span>
 			</div>
 			<input
 				ref={nodeRef}
@@ -90,22 +98,24 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 				id=""
 				className={join('inputText')}
 				onInput={inputHandler}
+				value={inputValue}
 			/>
+
 			<div className={join('wrapper')} onClick={wrapperHandler}>
-				{testArr.split('').map((item, key) => {
+				{corrector.map((item, key) => {
 					return (
 						<span
 							className={join(
 								'span',
-								corrector[key]
-									? corrector[key].correct
+								item.correct !== null
+									? item.correct
 										? 'correct'
 										: 'error'
-									: ''
+									: 'undefined'
 							)}
-							key={key}
+							key={key * Math.random()}
 						>
-							{item}
+							{item.value}
 						</span>
 					);
 				})}
