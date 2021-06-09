@@ -10,18 +10,11 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from 'react-jss';
 
 const theme = {
-	border: '1px solid #E1E1E1',
-	backgroundColor: '#FBFBFB',
-	filterBorderColor__active: '#4583CC',
-	borderColor: '#E1E1E1',
-	boxShadow: '0px 4px 12px #E5E5E5',
-	grey: '#E5E5E5',
-	shadowOffset: '0px 4px 12px',
-	white: 'white',
-	shadowBlack: 'rgba(0, 0, 0, 0.2)',
-	secondaryBackground: '0px 4px 12px rgba(0, 0, 0, 0.16)',
-	linkColor: '#2F80ED',
-	placeHolderColor: '#828282',
+	redColor: 'rgba(255, 51, 51, 0.699)',
+	greenColor: 'rgba(53, 238, 68, 0.685)',
+	shadowGeometry: '7px 11px 19px 1px',
+	shadowColorSecondary: ' rgba(40, 86, 122, 0.05)',
+	shadowColorPrimary: ' rgba(40, 86, 122, 0.23)',
 };
 
 export type ITheme = typeof theme;
