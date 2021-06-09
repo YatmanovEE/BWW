@@ -18,6 +18,7 @@ let style = createUseStyles((theme: ITheme) => ({
 		borderColor: correct ? 'green' : 'red',
 		width: '300px',
 		height: '300px',
+		cursor: 'text',
 	}),
 	correct: {
 		color: 'white',
@@ -109,17 +110,17 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 					{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
 				</span>
 			</div>
-			<input
-				ref={nodeRef}
-				type="text"
-				name=""
-				id=""
-				className={join('inputText')}
-				onInput={inputHandler}
-				value={inputValue}
-			/>
 
 			<div className={join('wrapper')} onClick={wrapperHandler}>
+				<input
+					ref={nodeRef}
+					type="text"
+					name=""
+					id=""
+					className={join('inputText')}
+					onInput={inputHandler}
+					value={inputValue}
+				/>
 				{corrector.map((item, key) => {
 					return (
 						<span
