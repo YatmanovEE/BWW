@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { ITheme } from '../';
 import { createClassName } from '../modules/join';
+import { useTimer } from '../hooks/useTimer';
 
 interface IStyle {
 	correct: boolean;
@@ -13,9 +14,12 @@ let style = createUseStyles((theme: ITheme) => ({
 		opacity: 0,
 		position: 'absolute',
 	},
-	wrapper: ({ correct }: IStyle) => ({
-		border: '1px solid',
-		borderColor: correct ? 'green' : 'red',
+	corrector__container: ({ correct, dateStart }: IStyle) => ({
+		border: dateStart
+			? correct
+				? ` 1px solid ${theme.greenColor}`
+				: ` 1px solid ${theme.redColor}`
+			: '1px solid transparent',
 		width: '300px',
 		height: '300px',
 		cursor: 'text',
@@ -30,17 +34,19 @@ let style = createUseStyles((theme: ITheme) => ({
 	},
 }));
 
-let arr: ICorrector[] = [];
+let testArr = 'Привет как дела, как же давно не виделись';
 
-let testArr = 'Привет как дела, как же давно не виделись'
-	.split('')
-	.forEach((item, i) => {
+function createCorrector(str: string): ICorrector[] {
+let arr: ICorrector[] = [];
+	str.split('').forEach((item, i) => {
 		arr.push({
 			count: i,
 			correct: null,
 			value: item,
 		});
 	});
+	return arr;
+}
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -52,29 +58,30 @@ type ICorrector = {
 
 const BlackboardWithWords: FC<Props> = ({}) => {
 	const [correct, setCorrect] = useState(true);
-	const [corrector] = useState<ICorrector[]>(() => arr);
+	const [corrector, setCorrector] = useState<ICorrector[]>(
+		createCorrector(testArr)
+	);
 	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
 	const [dateNow, setDateNow] = useState(0);
 	const [dateEnd, setDateEnd] = useState(0);
 	const [endText, setEndText] = useState(false);
 	const { dateEnd, setDateStart, dateStart } = useTimer(endText, 100);
+		dateStart,
 	let join = createClassName(className);
 	let nodeRef = useRef<HTMLInputElement>(null);
 	function wrapperHandler() {
 		if (nodeRef?.current) {
 			nodeRef.current.focus();
 		}
+	function reset() {
+		setCorrect(true);
+		setInputValue('');
+		setCountMistake(0);
+		setEndText(false);
+		setDateStart(0);
+		setCorrector(createCorrector(testArr));
 	}
-	useEffect(() => {
-		let timer = setInterval(() => {
-			if (dateNow !== 0) {
-				setDateEnd((Date.now() - dateNow) / 1000);
-			}
-			if (endText) {
-				clearInterval(timer);
-			}
-		}, 100);
 
 		return () => clearInterval(timer);
 	}, [dateNow, endText]);
@@ -116,6 +123,9 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 					{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
 				</span>
 			</div>
+				<button className={join('btn')} onClick={() => reset()}>
+					Сбросить
+				</button>
 
 			<div className={join('wrapper')} onClick={wrapperHandler}>
 				<input
