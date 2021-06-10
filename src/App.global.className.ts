@@ -17,6 +17,9 @@ export const globalClassName = createUseStyles(
 		none: {
 			display: 'none',
 		},
+		container: {
+			padding: '10px',
+		},
 	},
 	{
 		name: 'global',
