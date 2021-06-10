@@ -1,10 +1,12 @@
 import { ChangeEventHandler, FC, useRef, useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { createClassName } from '../modules/join';
 import { useTimer } from '../hooks/useTimer';
 import { ITheme } from '../redux/reducers/theme';
 import { IRootReducer } from '../redux/store/rootStore';
+import { openModal } from '../redux/actions/modal';
+import BurgerMenu from './Burger';
 
 type IStyle = {
 	correct: boolean;
@@ -70,7 +72,8 @@ let style = createUseStyles(
 	{ name: 'BlackboardWithWords' }
 );
 
-let testArr = 'Привет как дела, как же давно не виделись';
+let testArr =
+	'Привет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделись';
 
 function createCorrector(str: string): ICorrector[] {
 	let arr: ICorrector[] = [];
@@ -105,6 +108,7 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
 	const [endText, setEndText] = useState(false);
+	const dispatch = useDispatch();
 
 	const { dateEnd, setDateStart, dateStart } = useTimer(endText, 100);
 
@@ -149,7 +153,7 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 	};
 
 	return (
-		<div className={join('flex', 'main__container', 'container')}>
+		<div className={join('flex', 'main__container', 'container', 'wrap')}>
 			<div className={join('information__container', 'container', 'flex')}>
 				<div>Затраченное время:{dateEnd}</div>
 				<div className="">
@@ -172,6 +176,12 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 				</div>
 				<button className={join('btn')} onClick={() => reset()}>
 					Сбросить
+				</button>
+				<button
+					className={join('btn')}
+					onClick={() => dispatch(openModal({ component: <BurgerMenu /> }))}
+				>
+					Открыть настройки
 				</button>
 			</div>
 
