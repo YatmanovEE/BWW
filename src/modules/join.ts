@@ -46,4 +46,17 @@ export function registryGlobalName(className: ICreateClassName): void {
 		}
 	}
 }
+
+export function getGlobalName() {
+	return (...str: string[]) => {
+		let list: string[] = [];
+		str.forEach((item) => {
+			if (globalName) {
+				if (Object.keys(globalName).includes(item)) {
+					list.push(globalName[item]);
+				}
+			}
+		});
+		return joinWithoutDouble(list);
+	};
 }
