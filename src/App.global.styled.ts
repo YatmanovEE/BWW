@@ -1,34 +1,15 @@
 import { createUseStyles } from 'react-jss';
 import { ITheme } from './redux/reducers/theme';
 
-export const globalStyle = createUseStyles(
-	(theme: ITheme) => ({
-		'@global': {
-			a: {
-				outline: 'none',
-				textDecoration: 'none',
-			},
+export const globalStyle = createUseStyles((theme: ITheme) => ({
+	'@global': {
+		body: {
+			backgroundColor: theme.bodyBackgroundColor,
+			color: theme.bodyColor,
 		},
-		flex: {
-			display: 'flex',
+		a: {
+			outline: 'none',
+			textDecoration: 'none',
 		},
-		wrap: {
-			flexWrap: 'wrap',
-		},
-		btn: {
-			border: 'none',
-			padding: '10px',
-			backgroundColor: 'transparent',
-			cursor: 'pointer',
-		},
-		none: {
-			display: 'none',
-		},
-		container: {
-			margin: '20px',
-		},
-	}),
-	{
-		name: 'global',
-	}
-);
+	},
+}));

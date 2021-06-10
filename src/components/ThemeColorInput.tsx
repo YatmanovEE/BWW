@@ -3,17 +3,42 @@ import { connect } from 'react-redux';
 import { IRootReducer } from './../redux/store/rootStore';
 import { ConnectedProps, useDispatch } from 'react-redux';
 import { changeTheme } from '../redux/actions/theme';
+import { ITheme } from '../redux/reducers/theme';
+import { createClassName, registryGlobalName } from '../modules/join';
+import { createUseStyles } from 'react-jss';
+type Props = ConnectedProps<typeof connector> & {
+	keyTheme: string & keyof ITheme;
+	title?: string;
+};
 
-const ThemeColorInput: FC<ConnectedProps<typeof connector>> = ({ theme }) => {
+const style = createUseStyles({
+	container: {
+		'&>span': {
+			margin: '10px',
+		},
+		alignItems: 'center',
+	},
+});
+const ThemeColorInput: FC<Props> = ({ theme, keyTheme, title }) => {
 	const dispatch = useDispatch();
-	return (
-		<input
-			type="color"
-			onChange={(e) =>
-				dispatch(changeTheme({ shadowColorPrimary: e.target.value }))
-			}
-		/>
-	);
+	let className = style();
+	let join = createClassName(className);
+	if (!parseInt(theme[keyTheme])) {
+		return (
+			<div className={join('flex', 'container')}>
+				<input
+					type="color"
+					value={theme[keyTheme]}
+					onInput={(e) =>
+						dispatch(changeTheme({ [keyTheme]: e.currentTarget.value }))
+					}
+				/>
+				<span>{title || keyTheme}</span>
+			</div>
+		);
+	} else {
+		return null;
+	}
 };
 
 const mapStateToProps = ({ theme }: IRootReducer) => ({

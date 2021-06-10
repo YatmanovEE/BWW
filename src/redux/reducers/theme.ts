@@ -4,25 +4,38 @@ import { IAction } from './types';
 
 export type IReducerTheme<T> = IAction<ActionThemeReducer, T>;
 
-const initialState = {
-	redColor: 'rgba(255, 51, 51, 0.699)',
-	greenColor: 'rgba(53, 238, 68, 0.685)',
+export const themeInitialState = {
+	errorColor: '#EE5353',
+	correctColor: '#02F232',
 	shadowGeometry: '7px 11px 19px 1px',
-	shadowColorSecondary: ' rgba(40, 86, 122, 0.05)',
-	shadowColorPrimary: ' rgba(40, 86, 122, 0.23)',
+	shadowColorSecondary: '#D0D1D2',
+	bodyBackgroundColor: '#FFFFFF',
+	shadowColorPrimary: '#96A3AB',
+	bodyColor: '#000000',
 };
-export type ITheme = typeof initialState;
+
+const funcInitialState = (): ITheme => {
+	let theme = localStorage.getItem('theme');
+	if (theme) {
+		let ret: ITheme = JSON.parse(theme);
+		return ret;
+	}
+	return themeInitialState;
+};
+export type ITheme = typeof themeInitialState;
 
 export const reducerTheme: Reducer<
-	typeof initialState,
-	IReducerTheme<typeof initialState>
-> = (state = initialState, action) => {
+	typeof themeInitialState,
+	IReducerTheme<typeof themeInitialState>
+> = (state = funcInitialState(), action) => {
 	switch (action.type) {
 		case ActionThemeReducer.CHANGE:
-			return {
+			let theme = {
 				...state,
 				...action.payload,
 			};
+			localStorage.setItem('theme', JSON.stringify(theme));
+			return theme;
 
 		default:
 			return state;

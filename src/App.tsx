@@ -1,17 +1,19 @@
-import { globalStyle } from './App.global.styled';
 import { registryGlobalName } from './modules/join';
 import BlackboardWithWords from './components/BlackboardWithWords';
-import ThemeColorInput from './components/ThemeColorInput';
 import ThemeApp from './components/ThemeApp';
+import { ThemeChangedWrapper } from './components/ThemeChangedWrapper';
+import { globalClassName } from './App.global.className';
 
 const App = () => {
-	let className = globalStyle();
+	let className = globalClassName();
 	registryGlobalName(className);
 	return (
 		<>
 			<ThemeApp>
-				<ThemeColorInput></ThemeColorInput>
-				<BlackboardWithWords></BlackboardWithWords>
+				<div className={className.flex}>
+					<ThemeChangedWrapper></ThemeChangedWrapper>
+					<BlackboardWithWords></BlackboardWithWords>
+				</div>
 			</ThemeApp>
 		</>
 	);
