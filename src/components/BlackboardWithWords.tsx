@@ -1,17 +1,19 @@
-import { ChangeEventHandler, FC, useRef, useState, useEffect } from 'react';
+import { ChangeEventHandler, FC, useRef, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { createClassName } from '../modules/join';
 import { useTimer } from '../hooks/useTimer';
 import { ITheme } from '../redux/reducers/theme';
+import { IRootReducer } from '../redux/store/rootStore';
 
-interface IStyle {
+type IStyle = {
 	correct: boolean;
 	dateStart: number;
-}
+	theme: ITheme;
+};
 
 let style = createUseStyles(
-	(theme: ITheme) => ({
+	{
 		main__container: {
 			justifyContent: 'center',
 			marginLeft: 'auto',
@@ -30,7 +32,7 @@ let style = createUseStyles(
 			width: '300px',
 			overflow: 'hidden',
 		},
-		btn: {
+		btn: ({ theme }) => ({
 			marginTop: '10px',
 			border: `1px ${theme.shadowColorSecondary} solid`,
 			boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
@@ -38,12 +40,12 @@ let style = createUseStyles(
 			'&:active': {
 				boxShadow: 'none',
 			},
-		},
-		corrector__container: ({ correct, dateStart }: IStyle) => ({
+		}),
+		corrector__container: ({ correct, dateStart, theme }: IStyle) => ({
 			border: dateStart
 				? correct
-					? ` 1px solid ${theme.greenColor}`
-					: ` 1px solid ${theme.redColor}`
+					? ` 1px solid ${theme.correctColor}`
+					: ` 1px solid ${theme.errorColor}`
 				: '1px solid transparent',
 			width: '300px',
 			height: '300px',
@@ -56,15 +58,15 @@ let style = createUseStyles(
 			},
 		}),
 		span: {},
-		correct: {
+		correct: ({ theme }) => ({
 			color: 'white',
-			backgroundColor: theme.greenColor,
-		},
-		error: {
+			backgroundColor: theme.correctColor,
+		}),
+		error: ({ theme }) => ({
 			color: 'white',
-			backgroundColor: theme.redColor,
-		},
-	}),
+			backgroundColor: theme.errorColor,
+		}),
+	},
 	{ name: 'BlackboardWithWords' }
 );
 
@@ -95,7 +97,7 @@ function refFocus(nodeRef: React.RefObject<HTMLElement>) {
 	}
 }
 
-const BlackboardWithWords: FC<Props> = ({}) => {
+const BlackboardWithWords: FC<Props> = ({ theme }) => {
 	const [correct, setCorrect] = useState(true);
 	const [corrector, setCorrector] = useState<ICorrector[]>(
 		createCorrector(testArr)
@@ -110,6 +112,7 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	let className = style({
 		correct,
 		dateStart,
+		theme,
 	});
 	let join = createClassName(className);
 
@@ -207,5 +210,9 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 	);
 };
 
-let connector = connect(null, null);
+const mapStateToProps = ({ theme }: IRootReducer) => ({
+	theme,
+});
+
+let connector = connect(mapStateToProps);
 export default connector(BlackboardWithWords);
