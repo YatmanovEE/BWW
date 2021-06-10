@@ -4,7 +4,7 @@ import { IRootReducer } from './../redux/store/rootStore';
 import { ConnectedProps, useDispatch } from 'react-redux';
 import { changeTheme } from '../redux/actions/theme';
 import { ITheme } from '../redux/reducers/theme';
-import { createClassName, registryGlobalName } from '../modules/join';
+import { createClassName } from '../modules/join';
 import { createUseStyles } from 'react-jss';
 type Props = ConnectedProps<typeof connector> & {
 	keyTheme: string & keyof ITheme;

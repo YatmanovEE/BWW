@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { ITheme, themeInitialState } from '../redux/reducers/theme';
+import { getGlobalName } from '../modules/join';
+import { themeInitialState } from '../redux/reducers/theme';
 import ThemeColorInput from './ThemeColorInput';
-import { createUseStyles } from 'react-jss';
 
 export const ThemeChangedWrapper: FC = () => {
+	let join = getGlobalName();
 	return (
-		<div>
+		<div className={join('container')}>
 			{(
 				Object.keys(themeInitialState) as Array<keyof typeof themeInitialState>
 			).map((item, key) => {

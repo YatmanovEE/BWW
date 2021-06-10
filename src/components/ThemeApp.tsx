@@ -10,7 +10,7 @@ const ThemeApp: FC<ConnectedProps<typeof connector>> = ({
 }) => {
 	return (
 		<>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={{ ...theme }}>
 				<AppProvider>{children}</AppProvider>
 			</ThemeProvider>
 		</>

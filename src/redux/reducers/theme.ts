@@ -12,6 +12,8 @@ export const themeInitialState = {
 	bodyBackgroundColor: '#FFFFFF',
 	shadowColorPrimary: '#96A3AB',
 	bodyColor: '#000000',
+	burgerBackgroundColor: '#000000',
+	burgerColor: '#000000',
 };
 
 const funcInitialState = (): ITheme => {
