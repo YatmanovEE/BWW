@@ -18,8 +18,10 @@ export function createClassName(className: ICreateClassName) {
 	return (...str: string[]) => {
 		let list: string[] = [];
 		str.forEach((item) => {
-			if (Object.keys(globalName).includes(item)) {
-				list.push(globalName[item]);
+			if (globalName) {
+				if (Object.keys(globalName).includes(item)) {
+					list.push(globalName[item]);
+				}
 			}
 			if (str.includes(item)) {
 				list.push(className[item]);

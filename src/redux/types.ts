@@ -1,3 +1,3 @@
-export enum BlackboardWithWords {
-	ADD = 'BlackboardWithWords/ADD_WORD',
+export enum ActionThemeReducer {
+	CHANGE = 'theme/CHANGE',
 }

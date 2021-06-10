@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { ITheme } from '.';
+import { ITheme } from './redux/reducers/theme';
 
 export const globalStyle = createUseStyles(
 	(theme: ITheme) => ({

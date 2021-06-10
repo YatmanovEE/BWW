@@ -1,69 +1,72 @@
 import { ChangeEventHandler, FC, useRef, useState, useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { createUseStyles } from 'react-jss';
-import { ITheme } from '../';
 import { createClassName } from '../modules/join';
 import { useTimer } from '../hooks/useTimer';
+import { ITheme } from '../redux/reducers/theme';
 
 interface IStyle {
 	correct: boolean;
 	dateStart: number;
 }
 
-let style = createUseStyles((theme: ITheme) => ({
-	main__container: {
-		flexDirection: 'column',
-		justifyContent: 'center',
-		maxWidth: '300px',
-		marginLeft: 'auto',
-		marginRight: 'auto',
-	},
-	inputText: {
-		opacity: 0,
-		position: 'absolute',
-	},
-	information__container: {
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
-		justifyItems: 'center',
-		whiteSpace: 'nowrap',
-		padding: '10px',
-	},
-	btn: {
-		marginTop: '10px',
-		border: `1px ${theme.shadowColorSecondary} solid`,
-		boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
-		transition: 'box-shadow 0.2s ease',
-		'&:active': {
-			boxShadow: 'none',
+let style = createUseStyles(
+	(theme: ITheme) => ({
+		main__container: {
+			justifyContent: 'center',
+			marginLeft: 'auto',
+			marginRight: 'auto',
 		},
-	},
-	corrector__container: ({ correct, dateStart }: IStyle) => ({
-		border: dateStart
-			? correct
-				? ` 1px solid ${theme.greenColor}`
-				: ` 1px solid ${theme.redColor}`
-			: '1px solid transparent',
-		width: '300px',
-		height: '300px',
-		cursor: 'text',
-		padding: '10px',
-		boxShadow: theme.shadowGeometry + theme.shadowColorPrimary,
-		transition: 'box-shadow 1s ease, border 1s ease ',
-		'&:hover': {
+		inputText: {
+			opacity: 0,
+			position: 'absolute',
+		},
+		information__container: {
+			flexDirection: 'column',
+			justifyContent: 'flex-start',
+			justifyItems: 'center',
+			whiteSpace: 'nowrap',
+			padding: '10px',
+			width: '300px',
+			overflow: 'hidden',
+		},
+		btn: {
+			marginTop: '10px',
+			border: `1px ${theme.shadowColorSecondary} solid`,
 			boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
+			transition: 'box-shadow 0.2s ease',
+			'&:active': {
+				boxShadow: 'none',
+			},
+		},
+		corrector__container: ({ correct, dateStart }: IStyle) => ({
+			border: dateStart
+				? correct
+					? ` 1px solid ${theme.greenColor}`
+					: ` 1px solid ${theme.redColor}`
+				: '1px solid transparent',
+			width: '300px',
+			height: '300px',
+			cursor: 'text',
+			padding: '10px',
+			boxShadow: theme.shadowGeometry + theme.shadowColorPrimary,
+			transition: 'box-shadow 1s ease, border 1s ease ',
+			'&:hover': {
+				boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
+			},
+		}),
+		span: {},
+		correct: {
+			color: 'white',
+			backgroundColor: theme.greenColor,
+		},
+		error: {
+			color: 'white',
+			backgroundColor: theme.redColor,
 		},
 	}),
-	span: {},
-	correct: {
-		color: 'white',
-		backgroundColor: theme.greenColor,
-	},
-	error: {
-		color: 'white',
-		backgroundColor: theme.redColor,
-	},
-}));
+	{ name: 'BlackboardWithWords' }
+);
 
 let testArr = 'Привет как дела, как же давно не виделись';
 
@@ -148,7 +151,9 @@ const BlackboardWithWords: FC<Props> = ({}) => {
 				<div>Затраченное время:{dateEnd}</div>
 				<div className="">
 					<span>Процент ошибок:</span>
-					<span>{(countMistake / corrector.length) * 100}%</span>
+					<span>
+						{Math.round((countMistake / corrector.length) * 100 * 100) / 100}%
+					</span>
 				</div>
 				<div className="">
 					<span>Скорость написания в секунду:</span>
