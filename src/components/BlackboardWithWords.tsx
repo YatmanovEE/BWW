@@ -1,12 +1,15 @@
-import { ChangeEventHandler, FC, useRef, useState } from 'react';
+import { ChangeEventHandler, FC, useEffect, useRef, useState } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { createClassName } from '../modules/join';
 import { useTimer } from '../hooks/useTimer';
-import { ITheme } from '../redux/reducers/theme';
+import { ITheme, themeInitialState } from '../redux/reducers/theme';
 import { IRootReducer } from '../redux/store/rootStore';
 import { openModal } from '../redux/actions/modal';
 import BurgerMenu from './Burger';
+import { updateText, updateURL } from '../redux/actions/blackboardWithWords';
+import { BlackboardWithWordsInitialState } from '../redux/reducers/blackboardWithWords';
+import { changeTheme } from '../redux/actions/theme';
 
 type IStyle = {
 	correct: boolean;
@@ -51,6 +54,7 @@ let style = createUseStyles(
 				: '1px solid transparent',
 			width: '300px',
 			height: '300px',
+			overflow: 'clip',
 			cursor: 'text',
 			padding: '10px',
 			boxShadow: theme.shadowGeometry + theme.shadowColorPrimary,
@@ -72,18 +76,21 @@ let style = createUseStyles(
 	{ name: 'BlackboardWithWords' }
 );
 
-let testArr =
-	'Привет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделисьПривет как дела, как же давно не виделись';
-
 function createCorrector(str: string): ICorrector[] {
 	let arr: ICorrector[] = [];
-	str.split('').forEach((item, i) => {
-		arr.push({
-			count: i,
-			correct: null,
-			value: item,
+	if (Array.isArray(str)) {
+		str = str.join(',');
+	}
+	str
+		.slice(0, 700)
+		.split('')
+		.forEach((item, i) => {
+			arr.push({
+				count: i,
+				correct: null,
+				value: item,
+			});
 		});
-	});
 	return arr;
 }
 
@@ -100,13 +107,19 @@ function refFocus(nodeRef: React.RefObject<HTMLElement>) {
 	}
 }
 
-const BlackboardWithWords: FC<Props> = ({ theme }) => {
+const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 	const [correct, setCorrect] = useState(true);
 	const [corrector, setCorrector] = useState<ICorrector[]>(
-		createCorrector(testArr)
+		createCorrector(blackBoardWithWords.text)
 	);
+
+	useEffect(() => {
+		setCorrector(createCorrector(blackBoardWithWords.text));
+	}, [blackBoardWithWords.text]);
 	const [inputValue, setInputValue] = useState('');
 	const [countMistake, setCountMistake] = useState(0);
+	const [urlValue, setUrlValue] = useState(blackBoardWithWords.url);
+	const [textValue, setTextValue] = useState(blackBoardWithWords.text);
 	const [endText, setEndText] = useState(false);
 	const dispatch = useDispatch();
 
@@ -129,7 +142,6 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 		setCountMistake(0);
 		setEndText(false);
 		setDateStart(0);
-		setCorrector(createCorrector(testArr));
 	}
 
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -183,6 +195,34 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 				>
 					Открыть настройки
 				</button>
+				<input
+					type="text"
+					value={urlValue}
+					onInput={(e) => setUrlValue(e.currentTarget.value)}
+				/>
+				<button
+					className={join('btn')}
+					onClick={() => dispatch(updateURL({ url: urlValue }))}
+				>
+					Загрузить текст
+				</button>
+				<input
+					type="text"
+					value={textValue}
+					onInput={(e) => setTextValue(e.currentTarget.value)}
+				/>
+				<button
+					className={join('btn')}
+					onClick={() => dispatch(updateText({ text: textValue }))}
+				>
+					Изменить текст
+				</button>
+				<button
+					className={join('btn')}
+					onClick={() => dispatch(changeTheme(themeInitialState))}
+				>
+					Сбросить цвета
+				</button>
 			</div>
 
 			<div
@@ -220,8 +260,9 @@ const BlackboardWithWords: FC<Props> = ({ theme }) => {
 	);
 };
 
-const mapStateToProps = ({ theme }: IRootReducer) => ({
+const mapStateToProps = ({ theme, blackBoardWithWords }: IRootReducer) => ({
 	theme,
+	blackBoardWithWords: blackBoardWithWords,
 });
 
 let connector = connect(mapStateToProps);
