@@ -7,12 +7,12 @@ export type IReducerTheme<T> = IAction<ActionThemeReducer, T>;
 export const themeInitialState = {
 	errorColor: '#EE5353',
 	correctColor: '#02F232',
-	shadowGeometry: '7px 11px 19px 1px',
+	shadowGeometry: '4px 4px 8px 0px',
 	shadowColorSecondary: '#D0D1D2',
 	bodyBackgroundColor: '#FFFFFF',
 	shadowColorPrimary: '#96A3AB',
 	bodyColor: '#000000',
-	burgerBackgroundColor: '#000000',
+	burgerBackgroundColor: '#FFFFFF',
 	burgerColor: '#000000',
 };
 
