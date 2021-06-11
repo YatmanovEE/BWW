@@ -37,7 +37,7 @@ let style = createUseStyles(
 			width: '300px',
 			overflow: 'hidden',
 		},
-		btn: ({ theme }) => ({
+		btn: ({ theme }: IStyle) => ({
 			marginTop: '10px',
 			border: `1px ${theme.shadowColorSecondary} solid`,
 			boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
@@ -64,11 +64,11 @@ let style = createUseStyles(
 			},
 		}),
 		span: {},
-		correct: ({ theme }) => ({
+		correct: ({ theme }: IStyle) => ({
 			color: 'white',
 			backgroundColor: theme.correctColor,
 		}),
-		error: ({ theme }) => ({
+		error: ({ theme }: IStyle) => ({
 			color: 'white',
 			backgroundColor: theme.errorColor,
 		}),
@@ -142,6 +142,7 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 		setCountMistake(0);
 		setEndText(false);
 		setDateStart(0);
+		setCorrector(createCorrector(blackBoardWithWords.text));
 	}
 
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
