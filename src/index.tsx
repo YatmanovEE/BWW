@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { Provider } from 'react-redux';
+import { sagaWatcher } from './redux/saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +21,7 @@ function store(initialState: IRootReducer): Store<IRootReducer> {
 let init: any = {};
 
 let mountStore = store(init);
-// sagaMiddleware.run(sagaWatcher);
+sagaMiddleware.run(sagaWatcher);
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={mountStore}>
