@@ -13,7 +13,7 @@ export const BlackboardWithWordsInitialState = {
 };
 export type BlackboardWithWordsState = typeof BlackboardWithWordsInitialState;
 
-const funcInitialState = (): typeof BlackboardWithWordsInitialState => {
+export const funcInitialState = (): typeof BlackboardWithWordsInitialState => {
 	let text = localStorage.getItem('text');
 	if (text) {
 		let ret: BlackboardWithWordsState = JSON.parse(text);

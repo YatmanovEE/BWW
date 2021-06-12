@@ -11,6 +11,14 @@ import { updateText, updateURL } from '../redux/actions/blackboardWithWords';
 import { BlackboardWithWordsInitialState } from '../redux/reducers/blackboardWithWords';
 import { changeTheme } from '../redux/actions/theme';
 
+import {
+	resetCorrector,
+	changeStateCorrector,
+	updateInputValue,
+} from '../redux/actions/corrector';
+import Timer from './Timer';
+import Corrector from './Corrector';
+
 type IStyle = {
 	correct: boolean;
 	timerStart: number;
@@ -122,6 +130,8 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 	const [textValue, setTextValue] = useState(blackBoardWithWords.text);
 	const [endText, setEndText] = useState(false);
 	const dispatch = useDispatch();
+	let correct = corrector.correct;
+	let inputValue = corrector.inputValue;
 
 	const { timerTail, setTimerStart, timerStart } = useTimer(endText, 100);
 
@@ -137,12 +147,7 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 		refFocus(inputRef);
 	}
 	function reset() {
-		setCorrect(true);
-		setInputValue('');
-		setCountMistake(0);
-		setEndText(false);
-		setTimerStart(0);
-		setCorrector(createCorrector(blackBoardWithWords.text));
+		dispatch(resetCorrector(null));
 	}
 
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -225,45 +230,19 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 					Сбросить цвета
 				</button>
 			</div>
-
-			<div
-				className={join('container', 'corrector__container')}
-				onClick={focusHandler}
-			>
-				<input
-					ref={inputRef}
-					type="text"
-					name=""
-					id=""
-					className={join('inputText')}
-					onInput={inputHandler}
-					value={inputValue}
-				/>
-				{corrector.map((item, key) => {
-					return (
-						<span
-							className={join(
-								'span',
-								item.correct !== null
-									? item.correct
-										? 'correct'
-										: 'error'
-									: 'undefined'
-							)}
-							key={key * Math.random()}
-						>
-							{item.value}
-						</span>
-					);
-				})}
-			</div>
+			<Corrector></Corrector>
 		</div>
 	);
 };
 
-const mapStateToProps = ({ theme, blackBoardWithWords }: IRootReducer) => ({
+const mapStateToProps = ({
 	theme,
-	blackBoardWithWords: blackBoardWithWords,
+	blackBoardWithWords,
+	corrector,
+}: IRootReducer) => ({
+	theme,
+	blackBoardWithWords,
+	corrector,
 });
 
 let connector = connect(mapStateToProps);
