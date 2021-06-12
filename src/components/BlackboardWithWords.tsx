@@ -13,7 +13,7 @@ import { changeTheme } from '../redux/actions/theme';
 
 type IStyle = {
 	correct: boolean;
-	dateStart: number;
+	timerStart: number;
 	theme: ITheme;
 };
 
@@ -46,8 +46,8 @@ let style = createUseStyles(
 				boxShadow: 'none',
 			},
 		}),
-		corrector__container: ({ correct, dateStart, theme }: IStyle) => ({
-			border: dateStart
+		corrector__container: ({ correct, timerStart, theme }: IStyle) => ({
+			border: timerStart
 				? correct
 					? ` 1px solid ${theme.correctColor}`
 					: ` 1px solid ${theme.errorColor}`
@@ -123,12 +123,12 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 	const [endText, setEndText] = useState(false);
 	const dispatch = useDispatch();
 
-	const { dateEnd, setDateStart, dateStart } = useTimer(endText, 100);
+	const { timerTail, setTimerStart, timerStart } = useTimer(endText, 100);
 
 	let inputRef = useRef<HTMLInputElement>(null);
 	let className = style({
 		correct,
-		dateStart,
+		timerStart,
 		theme,
 	});
 	let join = createClassName(className);
@@ -141,12 +141,12 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 		setInputValue('');
 		setCountMistake(0);
 		setEndText(false);
-		setDateStart(0);
+		setTimerStart(0);
 		setCorrector(createCorrector(blackBoardWithWords.text));
 	}
 
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
-		if (e.target.value.length <= 1) setDateStart(Date.now());
+		if (e.target.value.length <= 1) setTimerStart(Date.now());
 		if (corrector.length < e.target.value.length) return;
 		let eValue = e.target.value[inputValue.length];
 		if (corrector[inputValue.length].value === eValue) {
@@ -168,7 +168,7 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 	return (
 		<div className={join('flex', 'main__container', 'container', 'wrap')}>
 			<div className={join('information__container', 'container', 'flex')}>
-				<div>Затраченное время:{dateEnd}</div>
+				<div>Затраченное время:{timerTail}</div>
 				<div className="">
 					<span>Процент ошибок:</span>
 					<span>
@@ -178,13 +178,13 @@ const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
 				<div className="">
 					<span>Скорость написания в секунду:</span>
 					<span>
-						{Math.round((inputValue.length * 100) / dateEnd) / 100 || 0}
+						{Math.round((inputValue.length * 100) / timerTail) / 100 || 0}
 					</span>
 				</div>
 				<div className="">
 					<span>Скорость написания в минуту:</span>
 					<span>
-						{Math.round((inputValue.length * 60 * 100) / dateEnd) / 100 || 0}
+						{Math.round((inputValue.length * 60 * 100) / timerTail) / 100 || 0}
 					</span>
 				</div>
 				<button className={join('btn')} onClick={() => reset()}>
