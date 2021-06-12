@@ -1,6 +1,6 @@
 import { Reducer } from 'react';
 import { IModalAction } from '../actions/modal';
-import { ActionModalType } from '../types';
+import { ActionTypes } from '../types';
 
 export interface IModalState {
 	active: boolean;
@@ -19,12 +19,12 @@ export const ModalReducer: Reducer<IModalState, IModalAction<IModalReducer>> = (
 	action
 ) => {
 	switch (action.type) {
-		case ActionModalType.OPEN:
+		case ActionTypes.ModalType.OPEN:
 			return {
 				...state,
 				...action.payload,
 			};
-		case ActionModalType.CLOSE:
+		case ActionTypes.ModalType.CLOSE:
 			return {
 				...state,
 				active: action.payload.active,

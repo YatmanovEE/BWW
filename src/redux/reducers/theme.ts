@@ -1,8 +1,8 @@
 import { Reducer } from 'react';
-import { ActionThemeReducer } from '../types';
+import { ActionTypes } from '../types';
 import { IAction } from './types';
 
-export type IReducerTheme<T> = IAction<ActionThemeReducer, T>;
+export type IReducerTheme<T> = IAction<ActionTypes.ThemeReducer, T>;
 
 export const themeInitialState = {
 	errorColor: '#EE5353',
@@ -31,7 +31,7 @@ export const reducerTheme: Reducer<
 	IReducerTheme<typeof themeInitialState>
 > = (state = funcInitialState(), action) => {
 	switch (action.type) {
-		case ActionThemeReducer.CHANGE:
+		case ActionTypes.ThemeReducer.CHANGE:
 			let theme = {
 				...state,
 				...action.payload,
