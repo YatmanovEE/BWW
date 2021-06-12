@@ -21,7 +21,7 @@ import Corrector from './Corrector';
 
 type IStyle = {
 	correct: boolean;
-	timerStart: number;
+	timerStart: boolean;
 	theme: ITheme;
 };
 
@@ -115,83 +115,32 @@ function refFocus(nodeRef: React.RefObject<HTMLElement>) {
 	}
 }
 
-const BlackboardWithWords: FC<Props> = ({ theme, blackBoardWithWords }) => {
-	const [correct, setCorrect] = useState(true);
-	const [corrector, setCorrector] = useState<ICorrector[]>(
-		createCorrector(blackBoardWithWords.text)
-	);
-
-	useEffect(() => {
-		setCorrector(createCorrector(blackBoardWithWords.text));
-	}, [blackBoardWithWords.text]);
-	const [inputValue, setInputValue] = useState('');
-	const [countMistake, setCountMistake] = useState(0);
+const BlackboardWithWords: FC<Props> = ({
+	theme,
+	blackBoardWithWords,
+	corrector,
+}) => {
 	const [urlValue, setUrlValue] = useState(blackBoardWithWords.url);
 	const [textValue, setTextValue] = useState(blackBoardWithWords.text);
-	const [endText, setEndText] = useState(false);
 	const dispatch = useDispatch();
 	let correct = corrector.correct;
 	let inputValue = corrector.inputValue;
 
-	const { timerTail, setTimerStart, timerStart } = useTimer(endText, 100);
-
-	let inputRef = useRef<HTMLInputElement>(null);
 	let className = style({
 		correct,
-		timerStart,
+		timerStart: inputValue.length < 1,
 		theme,
 	});
 	let join = createClassName(className);
 
-	function focusHandler() {
-		refFocus(inputRef);
-	}
 	function reset() {
 		dispatch(resetCorrector(null));
 	}
 
-	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
-		if (e.target.value.length <= 1) setTimerStart(Date.now());
-		if (corrector.length < e.target.value.length) return;
-		let eValue = e.target.value[inputValue.length];
-		if (corrector[inputValue.length].value === eValue) {
-			setCorrect(true);
-			corrector[inputValue.length].correct = true;
-			setInputValue(e.target.value);
-		} else {
-			setCorrect(false);
-			if (correct) {
-				setCountMistake((prev) => prev + 1);
-			}
-			corrector[inputValue.length].correct = false;
-		}
-		if (corrector.length - 1 <= e.target.value.length) {
-			return setEndText(true);
-		}
-	};
-
 	return (
 		<div className={join('flex', 'main__container', 'container', 'wrap')}>
 			<div className={join('information__container', 'container', 'flex')}>
-				<div>Затраченное время:{timerTail}</div>
-				<div className="">
-					<span>Процент ошибок:</span>
-					<span>
-						{Math.round((countMistake / corrector.length) * 100 * 100) / 100}%
-					</span>
-				</div>
-				<div className="">
-					<span>Скорость написания в секунду:</span>
-					<span>
-						{Math.round((inputValue.length * 100) / timerTail) / 100 || 0}
-					</span>
-				</div>
-				<div className="">
-					<span>Скорость написания в минуту:</span>
-					<span>
-						{Math.round((inputValue.length * 60 * 100) / timerTail) / 100 || 0}
-					</span>
-				</div>
+				<Timer></Timer>
 				<button className={join('btn')} onClick={() => reset()}>
 					Сбросить
 				</button>
