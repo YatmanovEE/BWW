@@ -13,9 +13,7 @@
 		"deploy": "npm run install-all && npm run build --prefix client&& npm run server"
 	},
 	"devDependencies": {
-		"@types/react-transition-group": "^4.4.1",
 		"concurrently": "^6.2.0",
-		"cross-env": "^7.0.3",
-		"redux-devtools-extension": "^2.13.9"
+		"cross-env": "^7.0.3"
 	}
 }

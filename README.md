@@ -6,11 +6,9 @@
 
 ## Как запустить приложение?
 
-1.  Склонировать репозиторий (командой git clone https://github.com/moizhirok/ratatype.git)
-2.  Установить все необходимые зависимости (npm run install)
-3.  Создать build (npm run build)
-4.  Запустить сервер (командой npm run server)
-5.  Открыть приложение по адресу localhost:80
+1.  Склонировать репозиторий (командой git clone https://github.com/moizhirok/bww.git)
+2.  Запустить команду npm run deploy в командной строке
+3.  Проект запустится на localhost:80
 
 ## Известные ошибки:
 
