@@ -1,13 +1,14 @@
 {
 	"name": "server",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Test your typing speed",
 	"main": "index.js",
+	"private": true,
 	"scripts": {
 		"dev": "nodemon index.js",
 		"start": "node index.js"
 	},
-	"author": "",
+	"author": "Yatmanov E.E. <nokiabagpipes@gmail.com>",
 	"license": "ISC",
 	"dependencies": {
 		"config": "^3.3.6",
