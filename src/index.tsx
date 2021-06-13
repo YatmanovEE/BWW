@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Store, createStore, applyMiddleware } from 'redux';
+import { Store, createStore, applyMiddleware, compose } from 'redux';
 import App from './App';
 import { IRootReducer, rootReducer } from './redux/store/rootStore';
 import reportWebVitals from './reportWebVitals';
@@ -11,12 +11,16 @@ import { sagaWatcher } from './redux/saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-function store(initialState: IRootReducer): Store<IRootReducer> {
-	return createStore(
-		rootReducer,
-		composeWithDevTools(applyMiddleware(sagaMiddleware))
-	);
-}
+let store = (initialState: any) => {
+	return createStore(rootReducer, compose(applyMiddleware(sagaMiddleware)));
+};
+
+if (process.env.NODE_ENV === 'development')
+	store = (initialState) =>
+		createStore(
+			rootReducer,
+			composeWithDevTools(applyMiddleware(sagaMiddleware))
+		);
 
 let init: any = {};
 
