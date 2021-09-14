@@ -4,7 +4,7 @@
 
 ## Как запустить приложение?
 
-1.  Склонировать репозиторий (командой git clone https://github.com/moizhirok/bww.git)
+1.  Склонировать репозиторий (командой git clone https://github.com/YatmanovEE/BWW.git)
 2.  Запустить команду npm run deploy в командной строке
 3.  Проект запустится на localhost:80
 
