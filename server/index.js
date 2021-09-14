@@ -2,7 +2,7 @@ let express = require('express');
 let app = express();
 let config = require('config');
 let path = require('path');
-const PORT = config.get('server.port') ?? 5000;
+const PORT = config.get('server.port') || 5000;
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 	app.get('*', (req, res) => {
