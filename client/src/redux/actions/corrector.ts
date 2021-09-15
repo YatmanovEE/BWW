@@ -1,12 +1,12 @@
-import { correctorState } from '../reducers/corrector';
-import { IAction } from '../reducers/types';
-import { ActionTypes } from '../types';
+import { correctorState } from "../reducers/corrector";
+import { IAction } from "../reducers/types";
+import { ActionTypes } from "../types";
 
 export type ICorrectorAction<T> = IAction<ActionTypes.Corrector, T>;
 
 type ICorrector<T> = (payload: T) => ICorrectorAction<T>;
 
-export const updateInputValue: ICorrector<Pick<correctorState, 'inputValue'>> =
+export const updateInputValue: ICorrector<Pick<correctorState, "inputValue">> =
 	({ inputValue }) => {
 		return {
 			type: ActionTypes.Corrector.UPDATE_INPUT,
@@ -16,7 +16,7 @@ export const updateInputValue: ICorrector<Pick<correctorState, 'inputValue'>> =
 		};
 	};
 export const updateCorrector: ICorrector<
-	Pick<correctorState, 'correctorText'>
+	Pick<correctorState, "correctorText">
 > = ({ correctorText }) => {
 	return {
 		type: ActionTypes.Corrector.UPDATE_CORRECTOR,
@@ -27,7 +27,7 @@ export const updateCorrector: ICorrector<
 };
 
 export const changeStateCorrector: ICorrector<
-	Partial<Pick<correctorState, 'correct' | 'endTextState'>>
+	Partial<Pick<correctorState, "correct" | "endTextState">>
 > = (payload) => {
 	return {
 		type: ActionTypes.Corrector.CHANGE_STATE,

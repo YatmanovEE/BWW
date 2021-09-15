@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 import {
 	BlackboardWithWordsState,
 	reducerBlackboardWithWords,
-} from '../reducers/blackboardWithWords';
+} from "../reducers/blackboardWithWords";
 
-import { IModalState, ModalReducer } from '../reducers/modal';
-import { ITheme, reducerTheme } from '../reducers/theme';
-import { correctorState, reducerCorrector } from './../reducers/corrector';
+import { IModalState, ModalReducer } from "../reducers/modal";
+import { ITheme, reducerTheme } from "../reducers/theme";
+import { correctorState, reducerCorrector } from "./../reducers/corrector";
 
 export interface IRootReducer {
 	theme: ITheme;

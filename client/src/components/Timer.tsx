@@ -1,7 +1,7 @@
-import { FC, useEffect } from 'react';
-import { useTimer } from '../hooks/useTimer';
-import { connect, ConnectedProps } from 'react-redux';
-import { IRootReducer } from '../redux/store/rootStore';
+import { FC, useEffect } from "react";
+import { useTimer } from "../hooks/useTimer";
+import { connect, ConnectedProps } from "react-redux";
+import { IRootReducer } from "../redux/store/rootStore";
 
 type Props = ConnectedProps<typeof connector>;
 
@@ -19,7 +19,8 @@ const Timer: FC<Props> = ({ corrector }) => {
 				<span>Процент ошибок:</span>
 				<span>
 					{Math.round(
-						(corrector.countMistake / corrector.correctorText.length) *
+						(corrector.countMistake /
+							corrector.correctorText.length) *
 							100 *
 							100
 					) / 100}
@@ -29,13 +30,15 @@ const Timer: FC<Props> = ({ corrector }) => {
 			<div className="">
 				<span>Скорость написания в секунду:</span>
 				<span>
-					{Math.round((inputValue.length * 100) / timerTail) / 100 || 0}
+					{Math.round((inputValue.length * 100) / timerTail) / 100 ||
+						0}
 				</span>
 			</div>
 			<div className="">
 				<span>Скорость написания в минуту:</span>
 				<span>
-					{Math.round((inputValue.length * 60 * 100) / timerTail) / 100 || 0}
+					{Math.round((inputValue.length * 60 * 100) / timerTail) /
+						100 || 0}
 				</span>
 			</div>
 		</>

@@ -1,14 +1,14 @@
-import { ChangeEventHandler, FC, useRef } from 'react';
-import { createUseStyles } from 'react-jss';
-import { ConnectedProps, connect, useDispatch } from 'react-redux';
-import { createClassName } from '../modules/join';
+import { ChangeEventHandler, FC, useRef } from "react";
+import { createUseStyles } from "react-jss";
+import { ConnectedProps, connect, useDispatch } from "react-redux";
+import { createClassName } from "../modules/join";
 import {
 	addCountMistake,
 	changeStateCorrector,
 	updateInputValue,
-} from '../redux/actions/corrector';
-import { ITheme } from '../redux/reducers/theme';
-import { IRootReducer } from '../redux/store/rootStore';
+} from "../redux/actions/corrector";
+import { ITheme } from "../redux/reducers/theme";
+import { IRootReducer } from "../redux/store/rootStore";
 
 export type Props = ConnectedProps<typeof connector>;
 
@@ -21,30 +21,30 @@ type IStyle = {
 let style = createUseStyles(
 	{
 		main__container: {
-			justifyContent: 'center',
-			marginLeft: 'auto',
-			marginRight: 'auto',
+			justifyContent: "center",
+			marginLeft: "auto",
+			marginRight: "auto",
 		},
 		inputText: {
 			opacity: 0,
-			position: 'absolute',
+			position: "absolute",
 		},
 		information__container: {
-			flexDirection: 'column',
-			justifyContent: 'flex-start',
-			justifyItems: 'center',
-			whiteSpace: 'nowrap',
-			padding: '10px',
-			width: '300px',
-			overflow: 'hidden',
+			flexDirection: "column",
+			justifyContent: "flex-start",
+			justifyItems: "center",
+			whiteSpace: "nowrap",
+			padding: "10px",
+			width: "300px",
+			overflow: "hidden",
 		},
 		btn: ({ theme }: IStyle) => ({
-			marginTop: '10px',
+			marginTop: "10px",
 			border: `1px ${theme.shadowColorSecondary} solid`,
 			boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
-			transition: 'box-shadow 0.2s ease',
-			'&:active': {
-				boxShadow: 'none',
+			transition: "box-shadow 0.2s ease",
+			"&:active": {
+				boxShadow: "none",
 			},
 		}),
 		corrector__container: ({ correct, timerStart, theme }: IStyle) => ({
@@ -52,29 +52,29 @@ let style = createUseStyles(
 				? correct
 					? ` 1px solid ${theme.correctColor}`
 					: ` 1px solid ${theme.errorColor}`
-				: '1px solid transparent',
-			width: '300px',
-			height: '300px',
-			overflow: 'clip',
-			cursor: 'text',
-			padding: '10px',
+				: "1px solid transparent",
+			width: "300px",
+			height: "300px",
+			overflow: "clip",
+			cursor: "text",
+			padding: "10px",
 			boxShadow: theme.shadowGeometry + theme.shadowColorPrimary,
-			transition: 'box-shadow 1s ease, border 1s ease ',
-			'&:hover': {
+			transition: "box-shadow 1s ease, border 1s ease ",
+			"&:hover": {
 				boxShadow: theme.shadowGeometry + theme.shadowColorSecondary,
 			},
 		}),
 		span: {},
 		correct: ({ theme }: IStyle) => ({
-			color: 'white',
+			color: "white",
 			backgroundColor: theme.correctColor,
 		}),
 		error: ({ theme }: IStyle) => ({
-			color: 'white',
+			color: "white",
 			backgroundColor: theme.errorColor,
 		}),
 	},
-	{ name: 'Corrector' }
+	{ name: "Corrector" }
 );
 
 function refFocus(nodeRef: React.RefObject<HTMLElement>) {
@@ -121,7 +121,7 @@ export const Corrector: FC<Props> = ({
 
 	return (
 		<div
-			className={join('container', 'corrector__container')}
+			className={join("container", "corrector__container")}
 			onClick={() => refFocus(inputRef)}
 		>
 			<input
@@ -129,7 +129,7 @@ export const Corrector: FC<Props> = ({
 				type="text"
 				name=""
 				id=""
-				className={join('inputText')}
+				className={join("inputText")}
 				onInput={inputHandler}
 				value={inputValue}
 			/>
@@ -139,12 +139,12 @@ export const Corrector: FC<Props> = ({
 						return (
 							<span
 								className={join(
-									'span',
+									"span",
 									item.correct !== null
 										? item.correct
-											? 'correct'
-											: 'error'
-										: 'undefined'
+											? "correct"
+											: "error"
+										: "undefined"
 								)}
 								key={key * Math.random()}
 							>
@@ -152,7 +152,7 @@ export const Corrector: FC<Props> = ({
 							</span>
 						);
 				  })
-				: 'Загрузка'}
+				: "Загрузка"}
 		</div>
 	);
 };

@@ -1,8 +1,8 @@
-import { ConnectedProps, connect } from 'react-redux';
-import { IRootReducer } from '../redux/store/rootStore';
-import { ThemeProvider } from 'react-jss';
-import { FC } from 'react';
-import { globalStyle } from '../App.global.styled';
+import { ConnectedProps, connect } from "react-redux";
+import { IRootReducer } from "../redux/store/rootStore";
+import { ThemeProvider } from "react-jss";
+import { FC } from "react";
+import { globalStyle } from "../App.global.styled";
 
 const ThemeApp: FC<ConnectedProps<typeof connector>> = ({
 	theme,

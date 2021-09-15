@@ -1,8 +1,8 @@
 import {
 	BlackboardWithWordsState,
 	IReducerBlackboardWithWords,
-} from '../reducers/blackboardWithWords';
-import { ActionTypes } from '../types';
+} from "../reducers/blackboardWithWords";
+import { ActionTypes } from "../types";
 
 export function updateText<T extends Partial<BlackboardWithWordsState>>(
 	payload: T

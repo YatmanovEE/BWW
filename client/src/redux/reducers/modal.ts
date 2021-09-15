@@ -1,6 +1,6 @@
-import { Reducer } from 'react';
-import { IModalAction } from '../actions/modal';
-import { ActionTypes } from '../types';
+import { Reducer } from "react";
+import { IModalAction } from "../actions/modal";
+import { ActionTypes } from "../types";
 
 export interface IModalState {
 	active: boolean;

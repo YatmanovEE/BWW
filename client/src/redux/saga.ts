@@ -1,9 +1,9 @@
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeEvery, call, put } from "redux-saga/effects";
 import {
 	IReducerBlackboardWithWords,
 	BlackboardWithWordsState,
-} from './reducers/blackboardWithWords';
-import { ActionTypes } from './types';
+} from "./reducers/blackboardWithWords";
+import { ActionTypes } from "./types";
 
 export function* sagaWatcher() {
 	yield takeEvery(ActionTypes.BlackBoardWithWords.UPDATE_URL, updateText);

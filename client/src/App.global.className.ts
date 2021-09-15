@@ -1,27 +1,27 @@
-import { createUseStyles } from 'react-jss';
+import { createUseStyles } from "react-jss";
 
 export const globalClassName = createUseStyles(
 	{
 		flex: {
-			display: 'flex',
+			display: "flex",
 		},
 		wrap: {
-			flexWrap: 'wrap',
+			flexWrap: "wrap",
 		},
 		btn: {
-			border: 'none',
-			padding: '10px',
-			backgroundColor: 'transparent',
-			cursor: 'pointer',
+			border: "none",
+			padding: "10px",
+			backgroundColor: "transparent",
+			cursor: "pointer",
 		},
 		none: {
-			display: 'none',
+			display: "none",
 		},
 		container: {
-			padding: '10px',
+			padding: "10px",
 		},
 	},
 	{
-		name: 'global',
+		name: "global",
 	}
 );

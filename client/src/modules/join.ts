@@ -5,7 +5,7 @@ export function joinWithoutDouble(str: string[]): string {
 		.filter((strItem, index) => {
 			return str.indexOf(strItem) === index;
 		})
-		.join(' ');
+		.join(" ");
 }
 //TODO Выдавать предупреждение, если стиль не обнаружен
 //NOTE Пока стиль, который не обнаружен просто отбрасывается
@@ -40,7 +40,7 @@ export function createClassName(className: ICreateClassName) {
 export function registryGlobalName(className: ICreateClassName): void {
 	if (className) {
 		if (globalName) {
-			console.error('Уже зарегистрирован один глобальный стиль');
+			console.error("Уже зарегистрирован один глобальный стиль");
 		} else {
 			globalName = className;
 		}

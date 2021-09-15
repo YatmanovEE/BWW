@@ -1,6 +1,6 @@
-import { ReactChild, FC, useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { CSSTransition } from 'react-transition-group';
+import { ReactChild, FC, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { CSSTransition } from "react-transition-group";
 
 namespace IAnimatedPortal {
 	export interface Props {

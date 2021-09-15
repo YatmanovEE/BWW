@@ -1,10 +1,10 @@
-import { Reducer } from 'react';
-import { ICorrectorAction } from '../actions/corrector';
-import { ActionTypes } from '../types';
+import { Reducer } from "react";
+import { ICorrectorAction } from "../actions/corrector";
+import { ActionTypes } from "../types";
 import {
 	BlackboardWithWordsInitialState,
 	funcInitialState,
-} from './blackboardWithWords';
+} from "./blackboardWithWords";
 type ICorrector = {
 	count: number;
 	correct: boolean | null;
@@ -22,7 +22,7 @@ export type correctorState = {
 let initialState: correctorState = {
 	correct: false,
 	correctorText: createCorrector(funcInitialState().text),
-	inputValue: '',
+	inputValue: "",
 	countMistake: 0,
 	endTextState: false,
 };
@@ -32,11 +32,10 @@ export type IReducerCorrector<T> = Reducer<T, ICorrectorAction<T>>;
 function createCorrector(str: string): ICorrector[] {
 	let arr: ICorrector[] = [];
 	if (Array.isArray(str)) {
-		str = str.join(',');
+		str = str.join(",");
 	}
-	str
-		.slice(0, 700)
-		.split('')
+	str.slice(0, 700)
+		.split("")
 		.forEach((item, i) => {
 			arr.push({
 				count: i,
@@ -77,7 +76,9 @@ export const reducerCorrector: IReducerCorrector<correctorState> = (
 		case ActionTypes.Corrector.RESET: {
 			return {
 				...initialState,
-				correctorText: createCorrector(BlackboardWithWordsInitialState.text),
+				correctorText: createCorrector(
+					BlackboardWithWordsInitialState.text
+				),
 			};
 		}
 
