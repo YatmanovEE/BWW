@@ -17,6 +17,7 @@ export type correctorState = {
 	inputValue: string;
 	countMistake: number;
 	endTextState: boolean;
+	active: boolean;
 };
 
 let initialState: correctorState = {
@@ -25,6 +26,7 @@ let initialState: correctorState = {
 	inputValue: "",
 	countMistake: 0,
 	endTextState: false,
+	active: false,
 };
 
 export type IReducerCorrector<T> = Reducer<T, ICorrectorAction<T>>;
@@ -82,7 +84,7 @@ export const reducerCorrector: IReducerCorrector<correctorState> = (
 				correctorText: createCorrector(
 					BlackboardWithWordsInitialState.text
 				),
-				endTextState: true,
+				active: false,
 			};
 		}
 

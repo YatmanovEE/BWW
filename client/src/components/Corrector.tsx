@@ -120,8 +120,8 @@ export const Corrector: FC<Props> = ({
 
 		let eValue = e.target.value[inputValue.length];
 
-		if (corrector.endTextState) {
-			dispatch(changeStateCorrector({ endTextState: false }));
+		if (!corrector.active) {
+			dispatch(changeStateCorrector({ active: true }));
 		}
 
 		if (correctorText[inputValue.length].value === eValue) {

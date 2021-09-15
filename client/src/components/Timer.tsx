@@ -6,7 +6,10 @@ import { IRootReducer } from "../redux/store/rootStore";
 type Props = ConnectedProps<typeof connector>;
 
 const Timer: FC<Props> = ({ corrector }) => {
-	const { timerTail, setTimerStart } = useTimer(corrector.endTextState, 100);
+	const { timerTail, setTimerStart } = useTimer(
+		corrector.endTextState || !corrector.active,
+		100
+	);
 	let inputValue = corrector.inputValue;
 	useEffect(() => {
 		if (inputValue.length === 1) setTimerStart(Date.now());

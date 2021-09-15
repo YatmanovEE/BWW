@@ -27,7 +27,7 @@ export const updateCorrector: ICorrector<
 };
 
 export const changeStateCorrector: ICorrector<
-	Partial<Pick<correctorState, "correct" | "endTextState">>
+	Partial<Pick<correctorState, "correct" | "endTextState" | "active">>
 > = (payload) => {
 	return {
 		type: ActionTypes.Corrector.CHANGE_STATE,
