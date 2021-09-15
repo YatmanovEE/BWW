@@ -53,7 +53,7 @@ function createCorrector(str: string): ICorrector[] {
 function resetCorrector(corrector: ICorrector[]): ICorrector[] {
 	corrector.forEach((item, i) => {
 		item.count = i;
-		item.correct = null;
+		item.correct = i === 0 ? "ready" : null;
 	});
 	return [...corrector];
 }
