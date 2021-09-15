@@ -16,9 +16,10 @@ export const useTimer = (shutdownСondition: boolean, duration: number) => {
 			}
 		}, duration);
 		if (shutdownСondition) {
+			setTimerTail(0);
 			clearInterval(timer);
 		}
 		return () => clearInterval(timer);
-	});
+	}, [duration, shutdownСondition, timerStart]);
 	return { timerTail, setTimerTail, timerStart, setTimerStart };
 };

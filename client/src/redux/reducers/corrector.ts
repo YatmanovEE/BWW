@@ -82,6 +82,7 @@ export const reducerCorrector: IReducerCorrector<correctorState> = (
 				correctorText: createCorrector(
 					BlackboardWithWordsInitialState.text
 				),
+				endTextState: true,
 			};
 		}
 

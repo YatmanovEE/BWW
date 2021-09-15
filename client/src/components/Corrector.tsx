@@ -117,7 +117,13 @@ export const Corrector: FC<Props> = ({
 
 	const inputHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
 		if (correctorText.length < e.target.value.length) return;
+
 		let eValue = e.target.value[inputValue.length];
+
+		if (corrector.endTextState) {
+			dispatch(changeStateCorrector({ endTextState: false }));
+		}
+
 		if (correctorText[inputValue.length].value === eValue) {
 			dispatch(changeStateCorrector({ correct: true }));
 			correctorText[inputValue.length].correct = true;
@@ -129,6 +135,7 @@ export const Corrector: FC<Props> = ({
 			}
 			correctorText[inputValue.length].correct = false;
 		}
+
 		if (correctorText.length - 1 <= e.target.value.length) {
 			return dispatch(changeStateCorrector({ endTextState: true }));
 		}
