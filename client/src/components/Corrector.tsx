@@ -129,6 +129,7 @@ export const Corrector: FC<Props> = ({
 			onClick={() => refFocus(inputRef)}
 		>
 			<input
+				autoFocus
 				ref={inputRef}
 				type="text"
 				name=""
