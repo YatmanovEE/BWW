@@ -1,4 +1,11 @@
-import { ChangeEventHandler, FC, useEffect, useRef, useState } from "react";
+import {
+	ChangeEventHandler,
+	FC,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
 import { createUseStyles } from "react-jss";
 import { ConnectedProps, connect, useDispatch } from "react-redux";
 import { createClassName } from "../modules/join";
@@ -126,7 +133,7 @@ export const Corrector: FC<Props> = ({
 			return dispatch(changeStateCorrector({ endTextState: true }));
 		}
 	};
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (!inputFocus) {
 			dispatch(
 				showNotice({
