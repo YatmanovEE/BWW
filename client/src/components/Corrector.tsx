@@ -158,6 +158,7 @@ export const Corrector: FC<Props> = ({
 				type="text"
 				name=""
 				id=""
+				autoComplete={"off"}
 				onFocus={() => setInputFocus(true)}
 				onBlur={() => setInputFocus(false)}
 				className={join("inputText")}
