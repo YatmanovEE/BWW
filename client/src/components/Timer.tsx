@@ -7,7 +7,8 @@ type Props = ConnectedProps<typeof connector>;
 
 const Timer: FC<Props> = ({ corrector }) => {
 	const { timerTail, setTimerStart } = useTimer(
-		corrector.endTextState || !corrector.active,
+		corrector.endTextState,
+		!corrector.active,
 		100
 	);
 	let inputValue = corrector.inputValue;
