@@ -4,6 +4,7 @@ import ThemeApp from "./components/ThemeApp";
 import { ThemeChangedWrapper } from "./components/ThemeChangedWrapper";
 import { globalClassName } from "./App.global.className";
 import Modal from "./components/Modal";
+import Notice from "./components/Notice";
 
 const App = () => {
 	let className = globalClassName();
@@ -17,6 +18,7 @@ const App = () => {
 				</div>
 			</ThemeApp>
 			<Modal></Modal>
+			<Notice></Notice>
 		</>
 	);
 };

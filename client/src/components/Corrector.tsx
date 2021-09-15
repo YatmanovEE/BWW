@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useRef } from "react";
+import { ChangeEventHandler, FC, useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { ConnectedProps, connect, useDispatch } from "react-redux";
 import { createClassName } from "../modules/join";
@@ -7,6 +7,7 @@ import {
 	changeStateCorrector,
 	updateInputValue,
 } from "../redux/actions/corrector";
+import { showNotice, closeNotice } from "../redux/actions/notice";
 import { ITheme } from "../redux/reducers/theme";
 import { IRootReducer } from "../redux/store/rootStore";
 
@@ -100,6 +101,9 @@ export const Corrector: FC<Props> = ({
 		theme,
 		timerStart: inputValue.length > 1,
 	});
+
+	const [inputFocus, setInputFocus] = useState<boolean>(false);
+
 	let join = createClassName(className);
 	let dispatch = useDispatch();
 	let inputRef = useRef<HTMLInputElement>(null);
@@ -122,7 +126,20 @@ export const Corrector: FC<Props> = ({
 			return dispatch(changeStateCorrector({ endTextState: true }));
 		}
 	};
-
+	useEffect(() => {
+		if (!inputFocus) {
+			dispatch(
+				showNotice({
+					text: "Инпут не в фокусе, для начала нажмите на текст",
+				})
+			);
+		} else {
+			dispatch(closeNotice());
+		}
+		return () => {
+			dispatch(closeNotice());
+		};
+	}, [dispatch, inputFocus]);
 	return (
 		<div
 			className={join("container", "corrector__container")}
@@ -134,6 +151,8 @@ export const Corrector: FC<Props> = ({
 				type="text"
 				name=""
 				id=""
+				onFocus={() => setInputFocus(true)}
+				onBlur={() => setInputFocus(false)}
 				className={join("inputText")}
 				onInput={inputHandler}
 				value={inputValue}

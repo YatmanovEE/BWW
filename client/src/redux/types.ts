@@ -20,4 +20,8 @@ export namespace ActionTypes {
 		RESET = "corrector/RESET",
 		ADD_COUNT_MISTATE = "corrector/ADD_COUNT_MISTATE",
 	}
+	export enum Notice {
+		SHOW_NOTICE = "NOTICE/SHOW",
+		HIDE_NOTICE = "NOTICE/HIDE",
+	}
 }

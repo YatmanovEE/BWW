@@ -63,19 +63,21 @@ const Modal: FC<IModal.Props> = ({ modal }) => {
 		};
 	}, [dispatch, modal.active, node]);
 
-	return (
-		<AnimatedPortal
-			whereElem={document.body}
-			duration={duration}
-			activeState={modal.active}
-			nodeRef={node}
-			className={className.wrapper}
-		>
-			<div className={className.wrapper} ref={node}>
-				<div className={className.container}>{modal.component}</div>
-			</div>
-		</AnimatedPortal>
-	);
+	if (modal.active)
+		return (
+			<AnimatedPortal
+				whereElem={document.body}
+				duration={duration}
+				activeState={modal.active}
+				nodeRef={node}
+				className={className.wrapper}
+			>
+				<div className={className.wrapper} ref={node}>
+					<div className={className.container}>{modal.component}</div>
+				</div>
+			</AnimatedPortal>
+		);
+	return null;
 };
 
 const mapStateToProps = ({ modal }: IRootReducer) => ({

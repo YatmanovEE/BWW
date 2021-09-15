@@ -1,3 +1,4 @@
+import { INoticeState, noticeReducer } from "./../reducers/notice";
 import { combineReducers } from "redux";
 import {
 	BlackboardWithWordsState,
@@ -13,6 +14,7 @@ export interface IRootReducer {
 	modal: IModalState;
 	blackBoardWithWords: BlackboardWithWordsState;
 	corrector: correctorState;
+	notice: INoticeState;
 }
 
 //TODO Найти связать интерфейс и rootReducer
@@ -22,4 +24,5 @@ export const rootReducer = combineReducers({
 	modal: ModalReducer,
 	blackBoardWithWords: reducerBlackboardWithWords,
 	corrector: reducerCorrector,
+	notice: noticeReducer,
 });
