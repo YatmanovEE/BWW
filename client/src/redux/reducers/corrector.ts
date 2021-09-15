@@ -50,6 +50,13 @@ function createCorrector(str: string): ICorrector[] {
 		});
 	return arr;
 }
+function resetCorrector(corrector: ICorrector[]): ICorrector[] {
+	corrector.forEach((item, i) => {
+		item.count = i;
+		item.correct = null;
+	});
+	return [...corrector];
+}
 
 export const reducerCorrector: IReducerCorrector<correctorState> = (
 	state = initialState,
@@ -81,9 +88,7 @@ export const reducerCorrector: IReducerCorrector<correctorState> = (
 		case ActionTypes.Corrector.RESET: {
 			return {
 				...initialState,
-				correctorText: createCorrector(
-					BlackboardWithWordsInitialState.text
-				),
+				correctorText: resetCorrector(state.correctorText),
 				active: false,
 			};
 		}
