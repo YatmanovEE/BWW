@@ -1,23 +1,54 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { createUseStyles } from "react-jss";
 import { connect, ConnectedProps } from "react-redux";
 import { createClassName } from "../modules/join";
 import { ITheme } from "../redux/reducers/theme";
 import { IRootReducer } from "../redux/store/rootStore";
+import { CSSTransition } from "react-transition-group";
+
+const DURATION = 200;
 
 const style = createUseStyles(
 	{
-		wrapper: {
-			position: "absolute",
+		wrapper: (theme: ITheme) => ({
+			position: "fixed",
 			top: 0,
 			left: 0,
 			padding: "1rem",
 			backgroundColor: "white",
-			boxShadow: (theme: ITheme) =>
-				`${theme.shadowColorSecondary} ${theme.shadowGeometry}`,
+			boxShadow: `${theme.shadowColorSecondary} ${theme.shadowGeometry}`,
 			marginTop: "10px",
-			transition: "box-shadow 0.2s ease 0s",
-		},
+			// transform: "translateY(-300%)",
+			transition: `transform ${DURATION}ms ease 0s `,
+
+			"&-enter": {
+				transform: "translateY(-300%)",
+			},
+			"&-enter-active": {
+				transform: "translateY(0%)",
+			},
+			"&-enter-done": {
+				transform: "translateY(0%)",
+			},
+			"&-exit": {
+				transform: "translateY(0%)",
+			},
+			"&-exit-active": {
+				transform: "translateY(-300%)",
+			},
+			"&-exit-done": {
+				transform: "translateY(-300%)",
+			},
+			"&:after": {
+				position: "absolute",
+				top: 0,
+				left: -10,
+				content: "",
+				backgroundColor: "red",
+				width: "2rem",
+				height: "2rem",
+			},
+		}),
 	},
 	{
 		name: "notice",
@@ -25,15 +56,22 @@ const style = createUseStyles(
 );
 
 const Notice: FC<ConnectedProps<typeof connector>> = ({ notice, theme }) => {
-	const join = createClassName(style(theme));
-	if (notice.active) {
-		return (
-			<div className={join("wrapper")}>
+	const className = style(theme);
+	const join = createClassName(className);
+	const ref = useRef(null);
+	return (
+		<CSSTransition
+			in={notice.active}
+			timeout={DURATION}
+			nodeRef={ref}
+			classNames={className.wrapper}
+			unmountOnExit
+		>
+			<div className={join("wrapper")} ref={ref}>
 				<span>{notice.text}</span>
 			</div>
-		);
-	}
-	return null;
+		</CSSTransition>
+	);
 };
 
 const mapStateToProps = ({ notice, theme }: IRootReducer) => ({

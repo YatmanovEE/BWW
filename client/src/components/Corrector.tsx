@@ -109,7 +109,7 @@ export const Corrector: FC<Props> = ({
 		timerStart: inputValue.length > 1,
 	});
 
-	const [inputFocus, setInputFocus] = useState<boolean>(false);
+	const [inputFocus, setInputFocus] = useState<boolean>(true);
 
 	let join = createClassName(className);
 	let dispatch = useDispatch();
@@ -160,8 +160,8 @@ export const Corrector: FC<Props> = ({
 			onClick={() => refFocus(inputRef)}
 		>
 			<input
-				autoFocus
 				ref={inputRef}
+				autoFocus
 				type="text"
 				name=""
 				id=""
