@@ -7,7 +7,7 @@ import {
 } from "./blackboardWithWords";
 type ICorrector = {
 	count: number;
-	correct: boolean | null;
+	correct: boolean | null | "ready";
 	value: string;
 };
 
@@ -37,11 +37,14 @@ function createCorrector(str: string): ICorrector[] {
 	str.slice(0, 700)
 		.split("")
 		.forEach((item, i) => {
-			arr.push({
-				count: i,
-				correct: null,
-				value: item,
-			});
+			if (i === 0) arr.push({ count: i, correct: "ready", value: item });
+			else {
+				arr.push({
+					count: i,
+					correct: null,
+					value: item,
+				});
+			}
 		});
 	return arr;
 }

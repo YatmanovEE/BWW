@@ -65,6 +65,10 @@ let style = createUseStyles(
 			},
 		}),
 		span: {},
+		ready: ({ theme }: IStyle) => ({
+			color: "white",
+			backgroundColor: theme.readyColor,
+		}),
 		correct: ({ theme }: IStyle) => ({
 			color: "white",
 			backgroundColor: theme.correctColor,
@@ -141,7 +145,9 @@ export const Corrector: FC<Props> = ({
 								className={join(
 									"span",
 									item.correct !== null
-										? item.correct
+										? item.correct === "ready"
+											? "ready"
+											: item.correct
 											? "correct"
 											: "error"
 										: "undefined"

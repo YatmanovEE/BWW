@@ -5,6 +5,7 @@ import { IAction } from "./types";
 export type IReducerTheme<T> = IAction<ActionTypes.ThemeReducer, T>;
 
 export const themeInitialState = {
+	readyColor: "#FFF14D",
 	errorColor: "#EE5353",
 	correctColor: "#02F232",
 	shadowGeometry: "4px 4px 8px 0px",
