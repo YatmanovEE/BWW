@@ -154,7 +154,7 @@ export const Corrector: FC<Props> = ({
 		if (!inputFocus) {
 			dispatch(
 				showNotice({
-					text: "Инпут не в фокусе, для начала нажмите на текст",
+					text: "Для того, чтобы начать, нажмите на текст",
 				})
 			);
 		} else {
