@@ -141,6 +141,16 @@ export const Corrector: FC<Props> = ({
 		}
 	};
 	useLayoutEffect(() => {
+		let timer: NodeJS.Timeout;
+		if (inputFocus && inputValue.length === 0) {
+			timer = setTimeout(() => {
+				dispatch(
+					showNotice({
+						text: "Вводите текст, чтобы начать",
+					})
+				);
+			}, 1000);
+		}
 		if (!inputFocus) {
 			dispatch(
 				showNotice({
@@ -152,8 +162,9 @@ export const Corrector: FC<Props> = ({
 		}
 		return () => {
 			dispatch(closeNotice());
+			clearTimeout(timer);
 		};
-	}, [dispatch, inputFocus]);
+	}, [dispatch, inputFocus, inputValue.length]);
 	return (
 		<div
 			className={join("container", "corrector__container")}
