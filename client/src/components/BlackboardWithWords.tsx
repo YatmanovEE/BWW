@@ -2,20 +2,14 @@ import { ChangeEventHandler, FC, useEffect, useRef, useState } from "react";
 import { connect, ConnectedProps, useDispatch } from "react-redux";
 import { createUseStyles } from "react-jss";
 import { createClassName } from "../modules/join";
-import { useTimer } from "../hooks/useTimer";
 import { ITheme, themeInitialState } from "../redux/reducers/theme";
 import { IRootReducer } from "../redux/store/rootStore";
 import { openModal } from "../redux/actions/modal";
 import BurgerMenu from "./Burger";
 import { updateText, updateURL } from "../redux/actions/blackboardWithWords";
-import { BlackboardWithWordsInitialState } from "../redux/reducers/blackboardWithWords";
 import { changeTheme } from "../redux/actions/theme";
 
-import {
-	resetCorrector,
-	changeStateCorrector,
-	updateInputValue,
-} from "../redux/actions/corrector";
+import { resetCorrector } from "../redux/actions/corrector";
 import Timer from "./Timer";
 import Corrector from "./Corrector";
 
