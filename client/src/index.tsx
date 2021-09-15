@@ -1,14 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Store, createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import App from "./App";
-import { IRootReducer, rootReducer } from "./redux/store/rootStore";
-import reportWebVitals from "./reportWebVitals";
+import { rootReducer } from "./redux/store/rootStore";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 import { sagaWatcher } from "./redux/saga";
-import { JssProvider, ThemeProvider } from "react-jss";
 
 const sagaMiddleware = createSagaMiddleware();
 
